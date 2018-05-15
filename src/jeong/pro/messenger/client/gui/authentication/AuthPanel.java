@@ -17,6 +17,7 @@ import java.util.Locale;
 public class AuthPanel extends JPanel {
     private static boolean userIsValid;
     private static Socket socket = null;
+    InetAddress inetAddress = null;
 
     private GridLayout gridLayout = new GridLayout();
     private JLabel idLabel = new JLabel("   Identification");
@@ -47,6 +48,11 @@ public class AuthPanel extends JPanel {
         add(loginButton);
     }
 
+    public AuthPanel(InetAddress serverAddress) {
+        this.inetAddress = serverAddress;
+        new AuthPanel();
+    }
+
     public static boolean getUserIsValid() {
         return userIsValid;
     }
@@ -62,7 +68,6 @@ public class AuthPanel extends JPanel {
             String id = idField.getText();
             String password = passField.getText();
 
-            InetAddress inetAddress = null;
             socket = null;
 
             try {

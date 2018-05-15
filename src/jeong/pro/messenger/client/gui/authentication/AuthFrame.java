@@ -2,6 +2,7 @@ package jeong.pro.messenger.client.gui.authentication;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.InetAddress;
 
 public class AuthFrame extends JFrame {
     private AuthPanel authPanel = new AuthPanel();
@@ -15,5 +16,10 @@ public class AuthFrame extends JFrame {
         add(authPanel, BorderLayout.CENTER);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    public AuthFrame(InetAddress serverAddress) {
+        authPanel = new AuthPanel(serverAddress);
+        new AuthFrame();
     }
 }

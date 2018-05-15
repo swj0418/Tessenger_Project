@@ -4,14 +4,36 @@ import jeong.pro.messenger.client.gui.authentication.AuthFrame;
 import jeong.pro.messenger.client.gui.authentication.AuthPanel;
 import jeong.pro.messenger.client.gui.messenger.MessengerFrame;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 public class ClientMain {
     public static AuthFrame authFrame = null;
     public static MessengerFrame messengerFrame = null;
+    private String serverExternalIP = "";
+    private InetAddress serverAddress = null;
 
     public ClientMain() {
         System.out.println("=================== Tessenger Client =====================");
         System.out.println("Version : 0.0.1");
         System.out.println("Author : Sangwon Jeong");
+
+        invokeAuthentication();
+        listenToauthorization();
+    }
+
+    ClientMain(String serverExternalIP) {
+        this.serverExternalIP = serverExternalIP;
+
+        System.out.println("=================== Tessenger Client =====================");
+        System.out.println("Version : 0.0.1");
+        System.out.println("Author : Sangwon Jeong");
+
+        try {
+            this.serverAddress = InetAddress.getByAddress(serverExternalIP.getBytes());
+        } catch(UnknownHostException e) {
+            e.printStackTrace();
+        }
 
         invokeAuthentication();
         listenToauthorization();
@@ -30,7 +52,7 @@ public class ClientMain {
     }
 
     public static void main(String[] ar) {
-        new ClientMain();
+        new ClientMain("175.192.128.143");
     }
 }
 

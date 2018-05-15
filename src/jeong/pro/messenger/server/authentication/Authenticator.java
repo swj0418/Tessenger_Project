@@ -2,20 +2,19 @@ package jeong.pro.messenger.server.authentication;
 
 import java.io.*;
 import java.net.InetAddress;
+import java.util.HashMap;
 
 public class Authenticator implements Runnable {
-    private File User_Info_File = new File("F:\\PUBLIC\\Project\\Messenger\\src\\jeong\\pro\\messenger\\server\\data\\userinfodata\\User_Info");
+    public static HashMap<String, Boolean> authorizedUsers = new HashMap<>();
+
+    private File User_Info_File = new File("/Users/top1/Workspace/Programming/Java/Tessenger_Project/src/" +
+            "jeong/pro/messenger/server/data/userinfodata/User_Info");
     private BufferedReader inputReader;
-    private boolean validUser = false;
     String[] toValidate = null;
 
     public Authenticator(String[] userInfo) {
         System.out.println("Authentication request from : " + userInfo[0]);
         this.toValidate = userInfo;
-    }
-
-    public boolean isValidUser() {
-        return validUser;
     }
 
     private void validateUser() {
@@ -27,14 +26,11 @@ public class Authenticator implements Runnable {
                 // If there is an id match, perform validation
                 if(toValidate[0].equals(splitID_Password[0])) {
                     if (toValidate[1].equals(splitID_Password[1])) {
-                        validUser = true;
-                        AuthenticationSessionContainer.getAuthenticationSessionContainerInstance().appendSession(toValidate[0], toValidate[1]);
-                        AuthenticationSessionContainer.getAuthenticationSessionContainerInstance().setAuthorized(toValidate[0]);
+                        authorizedUsers.put(splitID_Password[0], true);
                         System.out.println("User : " + toValidate[1] + " ::: Authorized");
                         break;
                     } else {
-                        validUser = false;
-                        AuthenticationSessionContainer.getAuthenticationSessionContainerInstance().appendSession(toValidate[0], toValidate[1]);
+                        authorizedUsers.put(splitID_Password[0], false);
                         System.out.println("User : " + toValidate[0] + " ::: Unauthorized");
                     }
                 }

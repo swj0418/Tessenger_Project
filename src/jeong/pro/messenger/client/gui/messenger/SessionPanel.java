@@ -7,10 +7,17 @@ import java.awt.*;
 
 public class SessionPanel extends JPanel {
     private JTable sessionTable = new JTable();
+    private JList sessionList = new JList();
 
     public SessionPanel() {
         setSessionTable();
-        add(sessionTable);
+        setSessionList();
+        add(sessionList);
+    }
+
+    private void setSessionList() {
+        sessionList.setFixedCellWidth(200);
+        sessionList.setBorder(BorderFactory.createBevelBorder(1));
     }
 
     private void setSessionTable() {
