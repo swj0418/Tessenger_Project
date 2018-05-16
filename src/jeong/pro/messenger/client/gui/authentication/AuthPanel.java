@@ -50,7 +50,22 @@ public class AuthPanel extends JPanel {
 
     public AuthPanel(InetAddress serverAddress) {
         this.inetAddress = serverAddress;
-        new AuthPanel();
+        gridLayout.setColumns(2);
+        gridLayout.setRows(3);
+
+        setName("Tessenger Login Module");
+        setLayout(gridLayout);
+
+        add(idLabel);
+        add(idField);
+        add(passLabel);
+        add(passField);
+
+        nullArea.setEditable(false);
+        add(nullArea);
+
+        loginButton.addActionListener(loginActionListener);
+        add(loginButton);
     }
 
     public static boolean getUserIsValid() {
@@ -71,12 +86,6 @@ public class AuthPanel extends JPanel {
             socket = null;
 
             try {
-                inetAddress = InetAddress.getLocalHost();
-            } catch(UnknownHostException e1) {
-                e1.printStackTrace();
-            }
-
-            try {
                 socket =  new Socket(inetAddress, 20000);
                 if(socket.isConnected()) {
                     // Send Authorization Request Packet
@@ -91,11 +100,10 @@ public class AuthPanel extends JPanel {
 
             // Listen to authentication
             try {
-                char[] acceptMsg = new char[] {'1', '0', '1'};
-                char[] deniedMsg = new char[] {'2', '0', '1'};
                 char[] authMessage = new char[3];
                 InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
                 inputStreamReader.read(authMessage);
+                System.out.println("Response from the server : " + authMessage);
 
                 if(convertCharArrayToString(authMessage).equals("101")) {
                     // Authorized
@@ -108,10 +116,6 @@ public class AuthPanel extends JPanel {
                     JDesktopPane desktopPane = new JDesktopPane();
                     JOptionPane.showMessageDialog(desktopPane.getParent(), "Denied");
                 }
-
-                //Exit Authpanel and enter the main messenger
-
-
             } catch(IOException e3) {
                 e3.printStackTrace();
             }

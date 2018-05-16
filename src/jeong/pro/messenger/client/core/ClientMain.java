@@ -30,7 +30,7 @@ public class ClientMain {
         System.out.println("Author : Sangwon Jeong");
 
         try {
-            this.serverAddress = InetAddress.getByAddress(serverExternalIP.getBytes());
+            this.serverAddress = InetAddress.getByName(this.serverExternalIP);
         } catch(UnknownHostException e) {
             e.printStackTrace();
         }
@@ -40,7 +40,7 @@ public class ClientMain {
     }
 
     private void invokeAuthentication() {
-        authFrame = new AuthFrame();
+        authFrame = new AuthFrame(this.serverAddress);
     }
     private void listenToauthorization() {
         Thread authorizationListner = new Thread(new AuthorizationListener());
